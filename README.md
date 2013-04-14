@@ -6,7 +6,7 @@ La aplicación de software **Metaforensic**, tiene como objetivo realizar una au
 
 ##Problematica
 
-El proyecto de software **Metaforensic** surge a partir del análisis de la problemática que presentan las organizaciones y particulares, en lo que se refiere a saber como, por quien, cuando y porque esta siendo manipulada su información contenida en archivos ofimáticos y de imagen, que se encuentran alojados dentro de su infraestructura tecnología.
+El proyecto de software **Metaforensic** surge a partir del análisis de la problemática que presentan las organizaciones y particulares, en lo que se refiere a saber cómo, por quién, cuándo y porqué esta siendo manipulada su información contenida en archivos ofimáticos y de imagen, que se encuentran alojados dentro de su infraestructura tecnológica.
 
 ##Funciones
 
@@ -59,7 +59,7 @@ El **Analizador** es una aplicación portable sin embargo requiere permanecer en
 
 #####Importante
 
-* La instalación y creación de la base de datos, JRE y aplicación del parche JCE no se mencionara ya que en la red abundan tutoriales sobre el tema.
+* La instalación y creación de la base de datos, JRE y aplicación del parche JCE no se mencionará ya que en la red abundan tutoriales sobre el tema.
 
 ##Uso
 
