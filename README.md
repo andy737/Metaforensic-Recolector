@@ -63,6 +63,34 @@ El **Analizador** es una aplicación portable sin embargo requiere permanecer en
 
 ##Uso
 
+Para hacer uso de la aplicación Metaforensic [Recolector] 
+
+1.- Las aplicaciones (.jar y .exe) pueden ser ejecutadas normalmente y también como administrador, se iniciara automáticamente.
+2.- Abrirá una ventana que consta de 5 secciones: Configuración de recolección, Configuración archivo de salida, Verificación de integridad, Tipos de archivos y las Acciones a realizar.
+3.- Configuración de recolección: Selección de una ruta para la búsqueda de archivo(s).
+4.- Configuración de archivo: Selección de ruta para guardar el archivo que contendrá la recolección del archivo a buscar.
+5.- Verificación de integridad: Elección de una firma para el tipo(s) de archivo(s) a elegir (encripta en AES al elejir SHA-256).
+6.- Tipos de archivos: Selección de uno o varios tipos de archivos a buscar dentro de la ruta seleccionada anteriormente.
+7.- Acciones a realizar: 
+  * Recolectar: comienza la recolección de metadatos del archivo(s) elegido(s) y solicitará ingresar un password (encripta en AES usando SHA-256, para preservar la integridad del archivo .afa que contiene los metadatos extraídos durante su transporte hasta el host que tiene al analizador).
+	* Limpiar: limpia los campos que fueron llenados.
+	* Salir: cierra la aplicación por completo. 
+8.- La acción de recolección puede durar varios minutos, al término de esta aparece un dialogo que muestra si se desea guardar o no una copia sin cifrar del archivo encontrado durante la recolección (opcional).
+9.- Al término de la recolección habrá creado de 2 a 3 archivos (3 solo si ha guardado una copia sin cifrar de la recolección).
+
+Para hacer uso de la aplicación Metaforensic [Analizador]
+Para la ejecución de esté, MySql debe tener contraseña se usuario.
+
+1.- Las aplicaciones (.jar y .exe) pueden ser ejecutadas normalmente y también como administrador, se iniciara automáticamente.
+2.- Abrirá una ventana en la que solícitará introducir la contraseña para el acceso a la base de datos.
+3.- Cargará la ventana principal del analizador, la cual consta de 4 acciones a realizar (Nuevo, Abrir, Consulta y Eliminar), cada una con sus respectivas acciones. 
+4.- Nuevo: Se debe ingresar todos los datos solicitados y lo más importante cargar el archivo (.afa) el cual fue generado con Metaforensic[Recolector].
+5.- Abrir: Se podrá visualizar los datos del apartado donde se creó el archivo, los datos del archivo .afa (ruta donde está guardado, el id, fecha y hora en que fue cargado, entre otros datos),
+al dar en la acción Abrir en el mismo, solicitará la contraseña con la cual fue creado el archivo al inicio (Metaforensic [Recolector]) y enviara a una nueva ventana.
+  5.1.- En esa nueva ventana podremos ver todos los archivos recolectados o bien uno en específico/individual, al igual ver los usuarios encontrados por cada archivo (ya sea por creación o modificación), los tiempos de creación, ultima modificación y ultimo acceso, por ultimo podemos guardar los eventos o proyectos recolectados.
+6.- Consulta: Primeramente selecciona un proyecto y nos mostrara algunos eventos, pero si marca la opción de mostrar todo y luego eventos nos mostrará los eventos de todos los archivos y la opción de guardar. 
+7.- Eliminar: Esta opción elimina el proyecto deseado al seleccionarlo.
+
 ##Creadores
 
 * TSU en TIC (Área Sistemas Informáticos) **Andrés de Jesús Hernández Martínez**    
