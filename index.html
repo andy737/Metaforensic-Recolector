@@ -1,78 +1,204 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <title>Metaforensic by andy737</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Metaforensic</h1>
-        <h2>La aplicación de software Metaforensic, tiene como función realizar una auditoría forense de metadatos en archivos electrónicos ofimáticos y de imagen, mediante la recopilación, análisis y presentación de los metadatos ocultos en ficheros electrónicos, con el fin de esclarecer algún suceso que involucre la manipulación (creación, modificación y acceso) de estos, en equipos de cómputo.</h2>
-        <a href="https://github.com/andy737/Metaforensic" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/andy737/Metaforensic-Recolector">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/andy737/Metaforensic-Recolector/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/andy737/Metaforensic-Recolector/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>Welcome to GitHub Pages.</h3>
+    <div class="wrapper">
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+      <section>
+        <div id="title">
+          <h1>Metaforensic</h1>
+          <p>&quot;Auditoria forense de metadatos en archivos electrónicos&quot;</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/andy737">andy737</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <p><img src="http://i.imgur.com/MiskrJZ.png" alt="image"></p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Objetivo</h2>
 
-<h3>Designer Templates</h3>
+<p>La aplicación de software <strong>Metaforensic</strong>, tiene como objetivo realizar una auditoría forense de metadatos en archivos electrónicos ofimáticos y de imagen, mediante la recopilación, análisis y presentación de los metadatos ocultos en ficheros electrónicos, con el fin de esclarecer algún suceso que involucre la manipulación (creación, modificación y acceso) de estos, en equipos de cómputo.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h2>Problematica</h2>
 
-<h3>Rather Drive Stick?</h3>
+<p>El proyecto de software <strong>Metaforensic</strong> surge a partir del análisis de la problemática que presentan las organizaciones y particulares, en lo que se refiere a saber cómo, por quién, cuándo y porqué esta siendo manipulada su información contenida en archivos ofimáticos y de imagen, que se encuentran alojados dentro de su infraestructura tecnológica.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h2>Funciones</h2>
 
-<h3>Authors and Contributors</h3>
+<h3>Recolector:</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li>Analizar los archivos electrónicos en busca de metadatos.</li>
+<li>Recolectar los metadatos de los archivos analizados. </li>
+<li>Respaldar la información obtenida. </li>
+</ul><h3>Analizador:</h3>
 
-<h3>Support or Contact</h3>
+<ul>
+<li>Filtrar y clasificar los metadatos recolectados. </li>
+<li>Analizar los metadatos filtrados.</li>
+<li>Mostrar los resultados del análisis (parcialmente implementado) .</li>
+<li>Generar una línea de tiempo que muestre el estado de los archivos analizados con base en los metadatos obtenidos (sin implementar).</li>
+</ul><h2>Esquema de funcionamiento general</h2>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
+<p><img src="http://i.imgur.com/7yfWHl4.png" alt="image"></p>
 
-        <aside id="sidebar">
-          <a href="https://github.com/andy737/Metaforensic/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/andy737/Metaforensic/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+<h2>Requerimientos de hardware y software</h2>
 
-          <p class="repo-owner"><a href="https://github.com/andy737/Metaforensic"></a> is maintained by <a href="https://github.com/andy737">andy737</a>.</p>
+<p><strong>Metaforensic</strong> se distribuye en dos modúlos por separado <strong>Recolector</strong> y <strong>Analizador</strong>, ambos modulos se pueden encontrar en dos tipos de ejecutables: jar y exe, los ejecutables en formato jar son ideales para funcionar en equipos con bajos recursos de hardware o para recolección de archivos con un peso que no exceda los 68 MB aproximadamente, al igual que para el análisis de archivos .afa que no exceda el mismo límite respectivamente. En el caso de los ejectutables en formato exe el límite de recolección o análisis es de archivos que tengan un peso aproximado de hasta 1 GB.</p>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<p>Está aplicación fue probada en equipos que reúnen las siguientes características: </p>
+
+<h3>Hardware:</h3>
+
+<ul>
+<li>1 GB de RAM (ejecutables jar), 3GB de RAM (ejecutables exe).</li>
+<li>Microprocesadores Intel Celeron a 1.7 GHz, AMD E-240 a 1.5 GHz e Intel Pentium 4 HT a 3.2 Ghz.</li>
+</ul><h3>Software</h3>
+
+<ul>
+<li>Windows 7 (todas las versiones) 32 y 64 bits, Windows Vista (todas las versiones) 32 y 64 bits y Windows XP Professional SP3 a 32 bits.</li>
+<li>JRE ver. 1.7.0_10 (mínimo) (<a href="http://www.oracle.com/technetwork/es/java/javase/downloads/index.html">http://www.oracle.com/technetwork/es/java/javase/downloads/index.html</a>).</li>
+<li>Parche JCE para JRE (<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html">http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html</a>).</li>
+<li>Para el uso del analizador se requiere Mysql 5.5.28 (<a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a>).</li>
+</ul><h4>Notas:</h4>
+
+<ul>
+<li>El analizador se distribuye con el script para la creación de la base de datos en Mysql y un archivo .ini para configurar los parametros de conexión a la base de datos. </li>
+<li>Algunos antivirus y firewalls pueden detectar tanto al recolector como el analizador como falsos positivos.</li>
+</ul><h2>Instalación</h2>
+
+<p>Para la instalación se deben cubrir los requisitos mencionados en el apartado de <a href="https://github.com/andy737/Metaforensic-Recolector/edit/master/README.md#requerimientos-de-hardware-y-software"><strong>Requerimientos de hardware y software</strong></a>.</p>
+
+<p>El <strong>Recolector</strong> es una aplicación portable que no requiere de instalación. <a href="https://github.com/andy737/Metaforensic-Recolector/">Descarga</a><br>
+El <strong>Analizador</strong> es una aplicación portable sin embargo requiere permanecer en un host que contenga la base de datos creada con el script que se distribuye con el ejecutable. <a href="https://github.com/andy737/Metaforensic-Analizador/">Descarga</a></p>
+
+<h5>Importante</h5>
+
+<ul>
+<li>La instalación y creación de la base de datos, JRE y aplicación del parche JCE no se mencionará ya que en la red abundan tutoriales sobre el tema.</li>
+</ul><h2>Uso</h2>
+
+<p>Para hacer uso de la aplicación <strong>Metaforensic [Recolector]</strong>   </p>
+
+<p>1.- Las aplicaciones (.jar y .exe) pueden ser ejecutadas normalmente y también como administrador si el sistema así lo requiere (.exe solamente).  </p>
+
+<p>2.- Al ejecutar la aplicación se desplegara una ventana que consta de 5 secciones:</p>
+
+<ul>
+<li>Configuración de recolección</li>
+<li>Configuración archivo de salida</li>
+<li>Verificación de integridad</li>
+<li>Tipos de archivos </li>
+<li>Acciones a realizar<br>
+</li>
+</ul><p>3.- Configuración de recolección: Selección de una ruta para la búsqueda y recolección de metadatos en archivos.  </p>
+
+<p>4.- Configuración de archivo: Selección de una ruta para guardar el archivo que contendrá la recolección de metadatos y el archivo log.  </p>
+
+<p>5.- Verificación de integridad: Selección del algoritmo (checksum) para comprobar la integridad de los archivos sometidos a recolección.  </p>
+
+<p>6.- Tipos de archivos: Selección de uno o varios tipos de archivos a buscar dentro de la ruta seleccionada anteriormente, con el fin de recolectar sus metadatos.  </p>
+
+<p>7.- Acciones a realizar: </p>
+
+<ul>
+<li>Recolectar: comienza la recolección de metadatos sobre los archivos elegidos y solicitara ingresar un password (para cifrar el archivo final con el propósito de preservar la integridad de este).<br>
+</li>
+<li>Limpiar: limpia los campos que fueron llenados o seleccionados.<br>
+</li>
+<li>Salir: finaliza la ejecución de la aplicación.<br>
+</li>
+</ul><p>8.- La acción de recolección puede durar varios minutos, al término de esta se mostrara un dialogo que solicita confirmar si se desea guardar o no una copia sin cifrar del archivo generado (opcional).  </p>
+
+<p>9.- Al término de la recolección se habrán creado 2 archivos (.log y .afa) o 3 archivos (.log, .afa y S/E), se crearán 3 archivos solo si se a optado por guardar una copia sin cifrar del archivo generado durante la recolección.  </p>
+
+<p>Nota: La recolección de metadatos puede ser cancelada en cualquier momento, sin que los archivos procesados sufran daño alguno, esto se realiza pulsando sobre el icono X (rojo), sin embargo en caso de necesitar abortar abruptamente la recolección y finalizar la ejecución de la aplicación al mismo tiempo (opción "Panic" icono de ojo), se podrían provocar daños sobre los archivos que se encuentren en proceso de recolección.</p>
+
+<p>Para hacer uso de la aplicación <strong>Metaforensic [Analizador]</strong>  </p>
+
+<p>1.- Las aplicaciones (.jar y .exe) pueden ser ejecutadas normalmente y también como administrador si el sistema así lo requiere (.exe solamente). </p>
+
+<p>2.- Al ejecutar la aplicación se desplegara una ventana que solicitará introducir la contraseña para el acceso a la base de datos.  </p>
+
+<p>3.- La conexión a la base de datos puede tardar un lapso tiempo que varía dependiendo del sistema en donde se ejecute el servidor Mysql, al establecerse la conexión la ventana principal del analizador se desplegara, esta consta de 4 acciones a realizar (Nuevo, Abrir, Consulta y Eliminar), cada una con sus respectivas acciones propias. </p>
+
+<p>4.- Nuevo: Se debe ingresar todos los datos solicitados y lo más importante cargar el archivo (.afa) el cual fue generado con la aplicación <strong>Metaforensic [Recolector]</strong>.  </p>
+
+<p>5.- Abrir: Se podrán visualizar los datos de proyecto antes de ser abierto (ruta donde se cargo el archivo .afa, el id del proyecto, fecha y hora en que fue cargado, entre otros), al dar clic sobre el botón "Abrir" se solicitara la contraseña con la cual fue cifrado el archivo .afa y será desplegada una nueva ventana.    </p>
+
+<p>5.1.- En esa nueva ventana podremos ver todos los archivos recolectados o bien uno en específico/individual, al igual ver los usuarios encontrados por cada archivo (ya sea por creación o modificación), los tiempos de creación, ultima modificación y ultimo acceso, por ultimo se tiene la opción de guardar la visualización de cada análisis o filtrado.  </p>
+
+<p>6.- Consulta: Se debe seleccionar un proyecto o la opción eventos, si se selecciona la opción de mostrar todo y luego la opción eventos nos mostrará los eventos de todos los archivos, si se selecciona la opción mostrar todo sin combinar con la opción eventos se mostrarán todos los proyectos almacenados y finalmente si se selecciona un proyecto individual se mostrarán sus detalles y si se selecciona un proyecto y la opción eventos se mostraran los eventos específicos de ese proyecto.  </p>
+
+<p>7.- Eliminar: Esta opción elimina el proyecto seleccionado.</p>
+
+<h2>Creadores</h2>
+
+<ul>
+<li>TSU en TIC (Área Sistemas Informáticos) <strong>Andrés de Jesús Hernández Martínez</strong><br>
+</li>
+<li>TSU en TIC (Área Sistemas Informáticos) <strong>Idania Aquino Cruz</strong>
+</li>
+</ul><p>(Estudiantes de la Licenciatura en Ingeniería en TIC en la <strong>UTTECAMAC</strong>)</p>
+
+<h2>Creditos</h2>
+
+<p>API utilizada para crear y verificar checksum de los archivos analizados por el "Recoletor":  </p>
+
+<ul>
+<li>Jacksum ver. 1.7.0 (<a href="http://www.jonelo.de/java/jacksum/">http://www.jonelo.de/java/jacksum/</a>)<br>
+</li>
+<li>API bajo la licencia GNU (General Public License)</li>
+</ul><p>API utilizada para extracción de metadatos de archivos a través del "Recolector":  </p>
+
+<ul>
+<li>Apache Tika ver. 1.3 (<a href="http://tika.apache.org/1.3/index.html">http://tika.apache.org/1.3/index.html</a>)<br>
+</li>
+<li>API bajo la licencia Apache License<br>
+</li>
+</ul><h2>Licencia</h2>
+
+<p>La aplicación de software <strong>Metaforensic</strong> es distribuida bajo la licencia GNU (General Public License) ver. 3  </p>
+
+<ul>
+<li>Para mayor información sobre la licencia dirigirse a <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a>
+</li>
+</ul><h2>Disclaimer</h2>
+
+<p>Tanto el <strong>Analizador</strong> como el <strong>Recolector</strong> que constituyen al proyecto <strong>Metaforensic</strong> contienen algoritmos creados por terceros, por lo cuál los creadores de dicho proyecto no se hacen responsables por el mal funcionamiento de estos o de la propia aplicación, o por algún daño que pudiera ser causado a los archivos o equipos electrónicos durante el funcionamiento de las aplicaciones denominadas <strong>Metaforesic [Recolector]</strong> y <strong>Metaforensic [Analizador]</strong>. </p>
+
+<h2>Bugs</h2>
+
+<p>Favor de reportar cualquier bug encontrado a <strong><a href="mailto:andy1818ster@gmail.com">andy1818ster@gmail.com</a></strong></p>
+      </section>
+
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
