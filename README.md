@@ -75,7 +75,7 @@ Para hacer uso de la aplicación **Metaforensic [Recolector]**
 * Tipos de archivos 
 * Acciones a realizar  
   
-3.- Configuración de recolección: Selección de una ruta para la busqueda y recolección de metadatos en archivos.  
+3.- Configuración de recolección: Selección de una ruta para la búsqueda y recolección de metadatos en archivos.  
 
 4.- Configuración de archivo: Selección de una ruta para guardar el archivo que contendrá la recolección de metadatos y el archivo log.  
 
@@ -85,7 +85,7 @@ Para hacer uso de la aplicación **Metaforensic [Recolector]**
 
 7.- Acciones a realizar: 
 
-* Recolectar: comienza la recolección de metadatos sobre los archivos elegidos y solicitara ingresar un password (para cifrar el archivo final con el proposito de preservar la integridad de este).  
+* Recolectar: comienza la recolección de metadatos sobre los archivos elegidos y solicitara ingresar un password (para cifrar el archivo final con el propósito de preservar la integridad de este).  
 * Limpiar: limpia los campos que fueron llenados o seleccionados.  
 * Salir: finaliza la ejecución de la aplicación.  
 
@@ -93,19 +93,19 @@ Para hacer uso de la aplicación **Metaforensic [Recolector]**
 
 9.- Al término de la recolección se habrán creado 2 archivos (.log y .afa) o 3 archivos (.log, .afa y S/E), se crearán 3 archivos solo si se a optado por guardar una copia sin cifrar del archivo generado durante la recolección.  
 
-Nota: La recolección de metadatos puede ser cancelada en cualquier momento, sin que los archivos procesados sufran daño alguno, esto se realiza pulsando sobre el icono X (rojo), sin embargo en caso de necesitar abortar abruptamente la recoleccion y finalizar la ejecución de la aplicación al mismo tiempo (opcion "Panic" icono de ojo), se prodrían provocar daños sobre los archivos que se encuentren en proceso de recolección.
+Nota: La recolección de metadatos puede ser cancelada en cualquier momento, sin que los archivos procesados sufran daño alguno, esto se realiza pulsando sobre el icono X (rojo), sin embargo en caso de necesitar abortar abruptamente la recolección y finalizar la ejecución de la aplicación al mismo tiempo (opción "Panic" icono de ojo), se podrían provocar daños sobre los archivos que se encuentren en proceso de recolección.
 
 Para hacer uso de la aplicación **Metaforensic [Analizador]**  
 
 1.- Las aplicaciones (.jar y .exe) pueden ser ejecutadas normalmente y también como administrador si el sistema así lo requiere (.exe solamente). 
 
-2.- Al ejecutar la aplicación se desplegara una ventana que solícitará introducir la contraseña para el acceso a la base de datos.  
+2.- Al ejecutar la aplicación se desplegara una ventana que solicitará introducir la contraseña para el acceso a la base de datos.  
 
-3.- La conexión a la base de datos puede tardar un lapso tiempo que varia dependiendo del sisetma en donde se ejecute el servidor Mysql, al establecerse la conexión la ventana principal del analizador se desplegara, esta consta de 4 acciones a realizar (Nuevo, Abrir, Consulta y Eliminar), cada una con sus respectivas acciones propias. 
+3.- La conexión a la base de datos puede tardar un lapso tiempo que varía dependiendo del sistema en donde se ejecute el servidor Mysql, al establecerse la conexión la ventana principal del analizador se desplegara, esta consta de 4 acciones a realizar (Nuevo, Abrir, Consulta y Eliminar), cada una con sus respectivas acciones propias. 
 
 4.- Nuevo: Se debe ingresar todos los datos solicitados y lo más importante cargar el archivo (.afa) el cual fue generado con la aplicación **Metaforensic [Recolector]**.  
 
-5.- Abrir: Se podran visualizar los datos de proyecto antes de ser abierto (ruta donde se cargo el archivo .afa, el id del proyecto, fecha y hora en que fue cargado, entre otros), al dar clic sobre el botón "Abrir" se solicitara la contraseña con la cual fue cifrado el archivo .afa y sera desplegada una nueva ventana.    
+5.- Abrir: Se podrán visualizar los datos de proyecto antes de ser abierto (ruta donde se cargo el archivo .afa, el id del proyecto, fecha y hora en que fue cargado, entre otros), al dar clic sobre el botón "Abrir" se solicitara la contraseña con la cual fue cifrado el archivo .afa y será desplegada una nueva ventana.    
 
 5.1.- En esa nueva ventana podremos ver todos los archivos recolectados o bien uno en específico/individual, al igual ver los usuarios encontrados por cada archivo (ya sea por creación o modificación), los tiempos de creación, ultima modificación y ultimo acceso, por ultimo se tiene la opción de guardar la visualización de cada análisis o filtrado.  
 
