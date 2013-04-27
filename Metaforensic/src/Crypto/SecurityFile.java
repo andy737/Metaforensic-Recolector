@@ -27,8 +27,8 @@
 package Crypto;
 
 /**
- * Clase SecurityFile (parametros de cifrdao/descifrado)
- * 
+ * Clase SecurityFile (parametros de cifrado/descifrado)
+ *
  * @author andy737-1
  * @version 1.1
  */
@@ -47,7 +47,8 @@ public class SecurityFile {
     }
 
     /**
-     * 
+     * Singleton
+     *
      * @return instancia de la clase
      */
     public static SecurityFile getInstance() {
@@ -64,7 +65,7 @@ public class SecurityFile {
 
     /**
      *
-     * @return archivo 
+     * @return archivo
      */
     public String getIn() {
         return in;

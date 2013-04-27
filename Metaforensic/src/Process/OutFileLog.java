@@ -26,7 +26,6 @@
  */
 package Process;
 
-import Meta.FilesCommon;
 import Windows.ModalDialog;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -34,24 +33,25 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 /**
+ * Creación y escritura del archivo .log
  *
  * @author andy737-1
  * @version 1.1
  */
-public class OutFileLog extends FilesCommon {
+public class OutFileLog {
 
     private FileOutputStream log;
     private OutputStreamWriter outlog;
     private BufferedWriter outfinal;
     private String txt;
     private ModalDialog md;
-    private FileFea fif;
+    private FileFeatures fif;
     private final StringBuffer buffer;
     /**
      * Encabezado de log
      */
     public static String titulo = "************************************************************************************\n"
-            + " * Metaforensic version 1.0 - Análisis forense de metadatos en archivos\n"
+            + " * Metaforensic version 1.1 - Análisis forense de metadatos en archivos\n"
             + " * electrónicos Copyright (C) 2012-2013 TSU. Andrés de Jesús Hernández Martínez,\n"
             + " * TSU Idania Aquino Cruz, All Rights Reserved, https://github.com/andy737\n"
             + " * [Recolector] Log de operaciones y eventos\n"
@@ -67,10 +67,11 @@ public class OutFileLog extends FilesCommon {
         outlog = null;
         outfinal = null;
         txt = "";
-        fif = FileFea.getInstance();
+        fif = FileFeatures.getInstance();
     }
 
     /**
+     * Procesos efectuados
      *
      * @param txt proceso que se efectuo sobre el archivo
      */
@@ -86,8 +87,7 @@ public class OutFileLog extends FilesCommon {
     /**
      * Crea un archivo de extención .log
      */
-    @Override
-    public Boolean CreateFile() {
+    public void CreateFile() {
         try {
             log = new FileOutputStream(fif.getPath() + "\\" + fif.getNameFile() + ".log");
             outlog = new OutputStreamWriter(log, "UTF-8");
@@ -98,15 +98,12 @@ public class OutFileLog extends FilesCommon {
             md.setFrame(fif.getFrame());
             md.DialogErr();
         }
-        return null;
-
     }
 
     /**
      * Escribe los procesos sobre el archivo .log
      */
-    @Override
-    public Boolean WriteFile() {
+    public void WriteFile() {
         try {
             outfinal.write(buffer.toString());
             outfinal.flush();
@@ -116,15 +113,12 @@ public class OutFileLog extends FilesCommon {
             md.setFrame(fif.getFrame());
             md.DialogErr();
         }
-        return null;
-
     }
 
     /**
      * Finaliza la escritura sobre el archivo .log
      */
-    @Override
-    public Boolean CloseFile() {
+    public void CloseFile() {
         try {
             outfinal.close();
         } catch (IOException ex) {
@@ -133,6 +127,5 @@ public class OutFileLog extends FilesCommon {
             md.setFrame(fif.getFrame());
             md.DialogErr();
         }
-        return null;
     }
 }

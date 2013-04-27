@@ -27,7 +27,7 @@
 package Factory;
 
 /**
- * Interfaz del factory
+ * Interfaz de factory metadata
  *
  * @author andy737-1
  * @version 1.1
@@ -35,27 +35,24 @@ package Factory;
 public interface CollectorFactoryMethod {
 
     /**
+     * Inicia recolector
      *
-     * @param ext
+     * @param ext tipo de archivo
      * @return error
      */
-    public Boolean InitCollector(String ext);
+    public Boolean InitCollector();
 
     /**
+     * Llamada al creador del archivo .afa
      *
      * @return error
      */
-    public Boolean CreateFile();
+    public Boolean CallCreator();
 
     /**
+     * Llamada al escritor del archivo .afa
      *
      * @return error
      */
-    public Boolean WriteFile();
-
-    /**
-     *
-     * @return error
-     */
-    public Boolean CloseFile();
+    public Boolean CallWriter();
 }

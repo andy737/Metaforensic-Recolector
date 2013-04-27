@@ -52,7 +52,7 @@ public class ValidateInfo {
     }
 
     /**
-     * Valida los campos y opciones dle frame para enviar confirmacion de
+     * Valida los campos y opciones del frame para enviar confirmacion de
      * limpieza o salida del mismo
      */
     public void GeneralValidate() {
@@ -64,7 +64,7 @@ public class ValidateInfo {
     }
 
     /*
-     * 
+     * Valida la recursividad de directorios
      * @param a directorio recolección
      * @param b directorio salida
      * @return si el dir salida esta dentro del dir recolección

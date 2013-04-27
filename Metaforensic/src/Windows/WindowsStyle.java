@@ -26,18 +26,18 @@
  */
 package Windows;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * Clase encargada de mostrar el GUI de la aplicación con el estilo Windows del
- * host
+ * Clase encargada de mostrar el GUI de la aplicación con el estilo Windows
+ * activo en el host
  *
  * @author andy737-1
  * @version 1.1
  */
 public class WindowsStyle {
+
+    private static ModalDialog md;
 
     /**
      * Metodo que setaea el estilo ventana por el tipo "Windows"
@@ -49,13 +49,17 @@ public class WindowsStyle {
                 try {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(WindowsStyle.class.getName()).log(Level.SEVERE, null, ex);
+                    /*Ignore*/
                 } catch (InstantiationException ex) {
-                    Logger.getLogger(WindowsStyle.class.getName()).log(Level.SEVERE, null, ex);
+                    /*Ignore*/
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(WindowsStyle.class.getName()).log(Level.SEVERE, null, ex);
+                    /*Ignore*/
                 } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(WindowsStyle.class.getName()).log(Level.SEVERE, null, ex);
+                    md = new ModalDialog();
+                    md.setDialogo("La aplicación no pudo cargar el estilo de ventanas actual de su sistema.");
+                    md.setFrame(null);
+                    md.setTitulo("Error de estilo en ventanas");
+                    md.DialogErrFix();
                 }
             }
 

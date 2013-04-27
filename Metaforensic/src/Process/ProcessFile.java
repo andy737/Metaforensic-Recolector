@@ -37,13 +37,14 @@ import java.io.File;
 public interface ProcessFile {
 
     /**
+     * Recoleccion de metadatos
      *
-     * @param ext del archivo
      * @param Archivo nombre absoluto del archivo
      */
-    public void CollectorAlgorithm(String ext, File Archivo);
+    public void CollectorAlgorithm(File Archivo);
 
     /**
+     * Crea hash de cada archivo
      *
      * @param archivo nombre absoluto del archivo
      * @return hash del archivo
@@ -51,6 +52,7 @@ public interface ProcessFile {
     public String CreateChecksum(File archivo);
 
     /**
+     * Verifica integridad de archivos
      *
      * @param archivo nombre absoluto del archivo
      */

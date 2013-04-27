@@ -38,24 +38,18 @@ import javax.swing.SwingUtilities;
  */
 public class Run {
 
-    //static Logger logger = Logger.getLogger(Run.class);
     /**
      * Inicio de la aplicación
      *
      * @param args (valor default)
      */
     public static void main(String[] args) {
-        //BasicConfigurator.configure();
-        //logger.info("Ingresando a la aplicación");
-        //Splash.RunSplash(null, false);  
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 AppInit();
             }
         });
-        //Run.AppInit();
-
     }
 
     private static void AppInit() {

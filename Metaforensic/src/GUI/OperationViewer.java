@@ -30,7 +30,7 @@ import Windows.FrameIcons;
 import Windows.WindowsStyle;
 
 /**
- * Clase que muestra las operaciones en una interfaz de usuario
+ * Clase que muestra las operaciones en una interfaz grafica
  *
  * @author andy737-1
  * @version 1.1
@@ -100,7 +100,7 @@ public class OperationViewer extends javax.swing.JFrame {
      * @param vl estado de operaciones
      */
     public void setExitButtonEnabled(Boolean vl) {
-        btnSalir.setEnabled(true);
+        btnSalir.setEnabled(vl);
     }
 
     /*
@@ -140,13 +140,13 @@ public class OperationViewer extends javax.swing.JFrame {
         txtaOperaciones = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         btnSalir = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lbPanic = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbCancelar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Procesando archivos");
@@ -171,6 +171,7 @@ public class OperationViewer extends javax.swing.JFrame {
         btnSalir.setFont(new java.awt.Font("Microsoft YaHei", 1, 11)); // NOI18N
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/out.png"))); // NOI18N
         btnSalir.setText("Salir");
+        btnSalir.setToolTipText("Salir del visualizador de operaciones");
         btnSalir.setEnabled(false);
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,12 +179,12 @@ public class OperationViewer extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/watch.png"))); // NOI18N
-        jLabel2.setToolTipText("Panic (Cuidado puedes dañar archivos)");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbPanic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/watch.png"))); // NOI18N
+        lbPanic.setToolTipText("Interrumpir todos los procesos y salir de la aplicación (Cuidado puedes dañar archivos)");
+        lbPanic.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbPanic.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lbPanicMouseClicked(evt);
             }
         });
 
@@ -199,12 +200,12 @@ public class OperationViewer extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/spam-2.png"))); // NOI18N
         jLabel6.setText("Las operaciones visualizadas se almacenarán  dentro del directorio de salida en un archivo .log");
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
-        jLabel7.setToolTipText("Cancelar operaciones");
-        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
+        lbCancelar.setToolTipText("Cancelar operaciones en curso");
+        lbCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                lbCancelarMouseClicked(evt);
             }
         });
 
@@ -218,7 +219,7 @@ public class OperationViewer extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(lbPanic)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
@@ -228,7 +229,7 @@ public class OperationViewer extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
+                                .addComponent(lbCancelar)
                                 .addGap(31, 31, 31))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
@@ -244,12 +245,12 @@ public class OperationViewer extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(lbPanic)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(lbCancelar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -272,24 +273,24 @@ public class OperationViewer extends javax.swing.JFrame {
         Exit();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    private void lbCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCancelarMouseClicked
         setPanic(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_lbCancelarMouseClicked
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void lbPanicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPanicMouseClicked
         System.exit(0);
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_lbPanicMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCancelar;
+    private javax.swing.JLabel lbPanic;
     private javax.swing.JTextArea txtaOperaciones;
     // End of variables declaration//GEN-END:variables
 }

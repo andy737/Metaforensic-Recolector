@@ -30,7 +30,7 @@ import GUI.CollectorGUI;
 import Process.CollectorFiles;
 
 /**
- * Clase que implemnta runnable para el visor de operaciones
+ * Clase que implementa runnable para el visor de operaciones
  *
  * @author andy737-1
  * @version 1.1

@@ -53,15 +53,14 @@ public class CollectorFiles extends FileName implements ProcessFile {
     private CollectorGUI gui;
     private OperationViewer opr;
     private OutFileLog out;
-    private FileFea fif;
+    private FileFeatures fif;
     private AbstractChecksum checksum;
-    private Hash hashob;
-    private List<Hash> very;
-    private List<Hash> fail;
+    private FileHash hashob;
+    private List<FileHash> very;
+    private List<FileHash> fail;
     private List<File> failmeta;
     private ElapsedTime et;
-    //private Thread oft;
-    private ErroCollectorMeta erm;
+    private ErrorCollectorMeta erm;
     private int error;
     private int subdir;
     private int reco;
@@ -96,15 +95,14 @@ public class CollectorFiles extends FileName implements ProcessFile {
     private void InitVar() {
         values = Collector.getInstance();
         InitViewer();
-        hashob = Hash.getInstance();
+        hashob = FileHash.getInstance();
         very = new ArrayList<>();
         fail = new ArrayList<>();
         et = new ElapsedTime();
-        fif = FileFea.getInstance();
+        fif = FileFeatures.getInstance();
         failmeta = new ArrayList<>();
         factory = new CollectorFactory();
         erm = null;
-        //oft = null;
         pdf = 0;
         error = 0;
         subdir = 0;
@@ -152,7 +150,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
 
     private void GeneralData(String rc) {
         SetProcessTxt("Iniciando recolección " + rc + "de metadatos.....\n\n"
-                + "Directorio Raiz [recolección]: " + values.getDirectorioRecoleccion() + "\n");
+                + "Directorio Raíz [recolección]: " + values.getDirectorioRecoleccion() + "\n");
         TypeFile();
         SetProcessTxt("Nombre del equipo: " + InfoCompu.getPCName() + "\n");
         SetProcessTxt("Nombre del usuario: " + InfoCompu.getUser() + "\n");
@@ -182,16 +180,15 @@ public class CollectorFiles extends FileName implements ProcessFile {
         InitAction();
         Find(new File(values.getDirectorioRecoleccion()), values.getTipoArchivo());
         PrintErrorExcepFile();
-        if (factory.CreateFile() && factory.WriteFile()) {
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo .afa.\n");
+        if (factory.CallCreator() && factory.CallWriter()) {
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo(s) .afa.\n");
         } else {
             reco++;
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Errores de creación o finalización del archivo .afa.\n");
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Errores de creación o finalización del/los archivo(s) .afa.\n");
         }
         PrintTot();
         et.StopAll();
         SetProcessTxt("Tiempo total transcurrido: " + et.getElapsedTimeAll() + " segundos aprox.\n");
-        //out.CloseFile();
         out.CreateFile();
         out.WriteFile();
         out.CloseFile();
@@ -201,7 +198,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
     }
 
     private void PrintErrorExcepFile() {
-        erm = new ErroCollectorMeta(failmeta);
+        erm = new ErrorCollectorMeta(failmeta);
         if (failmeta.size() > 0) {
             if (erm.OpenFile()) {
                 if (erm.WriteErrorFiles()) {
@@ -223,7 +220,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
 
     private void WriteFile(String txt) {
         out.setText(txt);
-        //out.WriteFile();
         out.LoadBuffer();
     }
 
@@ -247,9 +243,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
                         }
                         if (tipo.contains(ext)) {
                             if (!opr.getPanic()) {
-                                /* process ps = new process(ext, archivo);
-                                 Thread psej = new Thread(ps);                            
-                                 psej.start();*/
                                 ProcessFile(ext, archivo);
                             } else {
                                 break;
@@ -267,21 +260,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
         }
     }
 
-    /*class process implements Runnable {
-
-     private String ext;
-     private File archivo;
-
-     private process(String ext, File archivo) {
-     this.ext = ext;
-     this.archivo = archivo;
-     }
-
-     @Override
-     public void run() {
-     ProcessFile(ext, archivo);
-     }
-     }*/
     private void ProcessFile(final String ext, final File archivo) {
 
         String check;
@@ -290,7 +268,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
         SumType(ext);
         check = CreateChecksum(archivo);
         FeaturesFile(archivo, ext, check);
-        CollectorAlgorithm(ext, archivo);
+        CollectorAlgorithm(archivo);
         VerifyChecksum(archivo);
         SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [END]:[PROCESS]\n");
         et.Stop();
@@ -398,7 +376,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
         ValMsgOpAll();
         SetProcessTxt("Total de archivos sometidos a recolección: " + very.size() + "\n");
         SetProcessTxt("Total de directorios sometidos a recolección: " + (subdir + 1) + "\n");
-        SetProcessTxt("Total de archivos/direcorios inaccesibles: " + error + "\n");
+        SetProcessTxt("Total de archivos/directorios inaccesibles: " + error + "\n");
         SetProcessTxt("Total de errores de integridad: " + fail.size() + "\n");
         SetProcessTxt("Total de errores de recolección: " + reco + "\n");
         DefineExtView();
@@ -416,17 +394,12 @@ public class CollectorFiles extends FileName implements ProcessFile {
         WriteFile(txt);
     }
 
-    /**
-     *
-     * @param ext extención del archivopara recolección
-     * @param archivo que sera sometido a recolección
-     */
     @Override
-    public void CollectorAlgorithm(String ext, File archivo) {
+    public void CollectorAlgorithm(File archivo) {
         SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[LAUNCH]:[FILE] Recolectando metadatos del archivo.\n");
         FileMeta fn = FileMeta.getInstance();
         fn.setNameFile(archivo);
-        Boolean estadoC = factory.InitCollector(ext);
+        Boolean estadoC = factory.InitCollector();
         if (estadoC) {
             SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[CLOSE]:[FILE] Finaliza recolección de metadatos.\n");
         } else {
@@ -439,11 +412,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
      * Implementacion de la API jacksum ver. 1.7.0 (Licencia GNU) para firmado de archivos
      * 
      * Credits to: http://www.jonelo.de/java/jacksum
-     */
-    /**
-     *
-     * @param archivo que sera firmado
-     * @return el hash del archivo
      */
     @Override
     public String CreateChecksum(File archivo) {
@@ -473,10 +441,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
      * 
      * Credits to: http://www.jonelo.de/java/jacksum
      */
-    /**
-     *
-     * @param archivo que sera verificado (integridad)
-     */
     @Override
     public void VerifyChecksum(File archivo) {
         String hash;
@@ -497,14 +461,15 @@ public class CollectorFiles extends FileName implements ProcessFile {
         hashob.setFile(archivo);
         hashob.setHash(hash);
         if (very.contains(hashob)) {
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [VERIFY]:[PASSED]:[FILE] El archivo paso la prueba de integridad.\n");
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [VERIFY]:[PASSED]:[FILE] El archivo pasó la prueba de integridad.\n");
         } else {
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [VERIFY]:[FAIL]:[FILE] El archivo no paso la prueba de integridad.\n");
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [VERIFY]:[FAIL]:[FILE] El archivo no pasó la prueba de integridad.\n");
             fail.add(hashob);
         }
     }
 
     /**
+     * Determina las carateristicas basicas del archivo procesado
      *
      * @param archivo que esta siendo procesado
      * @param ext del archivo en procesamiento

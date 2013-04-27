@@ -37,8 +37,6 @@ import Windows.WindowsStyle;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -207,13 +205,13 @@ public class CollectorGUI extends javax.swing.JFrame {
             try {
                 valinfo.EspecificValidate();
             } catch (IOException ex) {
-                Logger.getLogger(CollectorGUI.class.getName()).log(Level.SEVERE, null, ex);
+                /*Ignore*/
             }
             int err = valinfo.getError();
             switch (err) {
                 case 1:
                     md = new ModalDialog();
-                    md.setDialogo("Ingresa un directorio para la recolección.");
+                    md.setDialogo("Ingresa un directorio para la recolección de metadatos.");
                     md.setFrame(this);
                     md.setTitulo("Error de validación");
                     md.DialogErrFix();
@@ -221,7 +219,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                     break;
                 case 2:
                     md = new ModalDialog();
-                    md.setDialogo("Ingresa un directorio para almacenar el archivo\ngenerado que contiene los metadatos recolectados.");
+                    md.setDialogo("Ingresa un directorio para almacenar los archivos\ngenerados que contienen los metadatos recolectados y el log.");
                     md.setFrame(this);
                     md.setTitulo("Error de validación");
                     md.DialogErrFix();
@@ -237,7 +235,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                     break;
                 case 4:
                     md = new ModalDialog();
-                    md.setDialogo("Selecciona almenos un tipo de archivo para reacolección de metadatos.");
+                    md.setDialogo("Selecciona almenos un tipo de archivo para recolección de metadatos.");
                     md.setFrame(this);
                     md.setTitulo("Error de validación");
                     md.DialogErrFix();
@@ -245,7 +243,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                     break;
                 case 5:
                     md = new ModalDialog();
-                    md.setDialogo("Para preservar la integridad de los directorios y archivos analizados para recolección de metadatos, el directorio de\nrecolección y el directorio donde se almacenara el archivo de salida deben ser distintos.");
+                    md.setDialogo("Para preservar la integridad de los directorios y archivos analizados para recolección de metadatos, el directorio de\nrecolección y el directorio donde se almacenarán los archivos de salida deben ser distintos.");
                     md.setFrame(this);
                     md.setTitulo("Error de validación");
                     md.DialogErrFix();
@@ -253,7 +251,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                     break;
                 case 6:
                     md = new ModalDialog();
-                    md.setDialogo("Para preservar la integridad de los directorios y archivos analizados para recolección de metadatos, el directorio raiz de\nrecolección no debe contener al directorio donde se almacenara el archivo de salida.");
+                    md.setDialogo("Para preservar la integridad de los directorios y archivos analizados para recolección de metadatos, el directorio raíz de\nrecolección no debe contener al directorio donde se almacenarán los archivos de salida.");
                     md.setFrame(this);
                     md.setTitulo("Error de validación");
                     md.DialogErrFix();
@@ -262,7 +260,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                 case 7:
                     try {
                         md = new ModalDialog();
-                        md.setDialogo("La recolección de metadatos es una operación que puede\ntardar un tiempo considerable.\n\n¿Deseas continuar?");
+                        md.setDialogo("La recolección de metadatos es una operación que puede\ntardar un lapso de tiempo considerable.\n\n¿Deseas continuar?");
                         md.setFrame(this);
                         md.setTitulo("Advertencia");
                         md.DialogAd();
@@ -271,7 +269,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                         }
 
                     } catch (IOException ex) {
-                        Logger.getLogger(CollectorGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        /*Ignore*/
                     }
                     break;
                 default:
@@ -313,7 +311,7 @@ public class CollectorGUI extends javax.swing.JFrame {
                     return false;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "El password no puede ser una caracter nulo o vacío.", "Error de password", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El password no puede ser un caracter nulo.", "Error de password", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
         } else {
@@ -326,6 +324,7 @@ public class CollectorGUI extends javax.swing.JFrame {
 
     private void CollectMetadata() throws IOException {
         if (GetPass()) {
+            
             this.setVisible(false);
             SetValues();
             RunnableViewer vw = new RunnableViewer(this);
@@ -573,7 +572,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel2.setText("Selecciona o ingresa la ruta del directorio:");
+        jLabel2.setText("Selecciona o ingresa la ruta de recolección:");
 
         btnSeleccionDirectorioR.setFont(new java.awt.Font("Microsoft YaHei", 1, 11)); // NOI18N
         btnSeleccionDirectorioR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/folder-add.png"))); // NOI18N
@@ -593,7 +592,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         jLabel4.setText("Configuración archivo de salida");
 
         txtDirectorioSalida.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        txtDirectorioSalida.setToolTipText("Directorio donde se guardara el archivo con los metadatos extraídos");
+        txtDirectorioSalida.setToolTipText("Directorio donde se guardarán losl archivos (.afa, S/Ext (opcional), .log)");
         txtDirectorioSalida.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDirectorioSalidaFocusGained(evt);
@@ -623,7 +622,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         cmbHashTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         cmbHashTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "crc64", "haval_128_3", "haval_128_4 ", "haval_128_5 ", "haval_160_3 ", "haval_160_4 ", "haval_160_5 ", "haval_192_3 ", "haval_192_4 ", "haval_192_5 ", "haval_224_3 ", "haval_224_4 ", "haval_224_5 ", "haval_256_3 ", "haval_256_4 ", "haval_256_5", "md5", "ripemd160", "ripemd320", "sha1", "sha224", "sha256", "sha384", "sha512", "tiger", "tiger2", "whirlpool2" }));
         cmbHashTipo.setSelectedIndex(-1);
-        cmbHashTipo.setToolTipText("Firmar cada uno de los archivos encontrados");
+        cmbHashTipo.setToolTipText("Algoritmo para firmar cada uno de los archivos sometidos a la recolección");
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -662,7 +661,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         });
 
         lbJpg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/polaroid-2.png"))); // NOI18N
-        lbJpg.setToolTipText("Seleccionar todo (jpg, png)");
+        lbJpg.setToolTipText("Seleccionar todo (jpg, jpeg, png)");
         lbJpg.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbJpg.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -674,7 +673,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         btnRecolectar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/droplet.png"))); // NOI18N
         btnRecolectar.setMnemonic('r');
         btnRecolectar.setText("Recolectar");
-        btnRecolectar.setToolTipText("Iniciar recolección de metadatos");
+        btnRecolectar.setToolTipText("Inicia recolección de metadatos");
         btnRecolectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRecolectarActionPerformed(evt);
@@ -685,7 +684,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/paper-roll-ripped.png"))); // NOI18N
         btnLimpiar.setMnemonic('l');
         btnLimpiar.setText("Limpiar");
-        btnLimpiar.setToolTipText("Limpiar campos y opciones");
+        btnLimpiar.setToolTipText("Limpia campos y opciones de la interfaz actual");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -696,7 +695,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/out.png"))); // NOI18N
         btnSalir.setMnemonic('r');
         btnSalir.setText("Salir");
-        btnSalir.setToolTipText("Salir de la aplicación");
+        btnSalir.setToolTipText("Termina la ejecución de la aplicación");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -748,7 +747,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/small_metaforensic_logo.png"))); // NOI18N
 
         rdbRecursivo.setText("Recolección recursiva entre directorios");
-        rdbRecursivo.setToolTipText("");
+        rdbRecursivo.setToolTipText("Recolección de metadatos dentro de todos los subdirectorios encontrados");
         rdbRecursivo.setEnabled(false);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/repeat-2.png"))); // NOI18N
@@ -993,8 +992,7 @@ public class CollectorGUI extends javax.swing.JFrame {
             try {
                 ciclo = SelectDir(txtDirectorioRecoleccion);
             } catch (IOException ex) {
-                Logger.getLogger(CollectorGUI.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                /*Ignore*/
             }
         }
     }//GEN-LAST:event_btnSeleccionDirectorioRActionPerformed
@@ -1007,8 +1005,7 @@ public class CollectorGUI extends javax.swing.JFrame {
         try {
             CleanGUI();
         } catch (IOException ex) {
-            Logger.getLogger(CollectorGUI.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            /*Ignore*/
         }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
@@ -1026,8 +1023,7 @@ public class CollectorGUI extends javax.swing.JFrame {
             try {
                 ciclo = SelectDir(txtDirectorioSalida);
             } catch (IOException ex) {
-                Logger.getLogger(CollectorGUI.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                /*Ignore*/
             }
         }
     }//GEN-LAST:event_btnSeleccionDirectorioSActionPerformed

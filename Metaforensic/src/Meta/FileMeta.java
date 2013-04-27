@@ -29,7 +29,7 @@ package Meta;
 import java.io.File;
 
 /**
- * Clase para objetos clean
+ * Manejador de archivos sometidos a recolección
  *
  * @author andy737-1
  * @version 1.1
@@ -38,6 +38,7 @@ public class FileMeta {
 
     private File archivo;
     private static FileMeta instance = new FileMeta();
+
     /**
      *
      * @return la instacia de esta clase

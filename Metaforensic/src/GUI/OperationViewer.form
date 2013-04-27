@@ -33,7 +33,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbPanic" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -43,7 +43,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbCancelar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="0" pref="678" max="32767" attributes="0"/>
@@ -66,12 +66,12 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbPanic" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel7" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbCancelar" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="313" max="-2" attributes="0"/>
@@ -128,24 +128,25 @@
           <Image iconType="3" name="/Images/out.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Salir"/>
+        <Property name="toolTipText" type="java.lang.String" value="Salir del visualizador de operaciones"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="lbPanic">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Images/watch.png"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Panic (Cuidado puedes da&#xf1;ar archivos)"/>
+        <Property name="toolTipText" type="java.lang.String" value="Interrumpir todos los procesos y salir de la aplicaci&#xf3;n (Cuidado puedes da&#xf1;ar archivos)"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor de Mano"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel2MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbPanicMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -187,18 +188,18 @@
         <Property name="text" type="java.lang.String" value="Las operaciones visualizadas se almacenar&#xe1;n  dentro del directorio de salida en un archivo .log"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel7">
+    <Component class="javax.swing.JLabel" name="lbCancelar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/Images/close.png"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Cancelar operaciones"/>
+        <Property name="toolTipText" type="java.lang.String" value="Cancelar operaciones en curso"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor de Mano"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel7MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbCancelarMouseClicked"/>
       </Events>
     </Component>
   </SubComponents>

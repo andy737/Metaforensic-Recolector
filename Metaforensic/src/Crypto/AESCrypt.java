@@ -12,7 +12,6 @@ import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Enumeration;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
@@ -414,7 +413,7 @@ public final class AESCrypt {
         } catch (InvalidKeyException e) {
             out.close();
             File tmp = new File(toPath);
-            tmp.delete();            
+            tmp.delete();
             JOptionPane.showMessageDialog(null, JCE_EXCEPTION_MESSAGE,
                     "Error de Java ", JOptionPane.ERROR_MESSAGE);
             throw new GeneralSecurityException(JCE_EXCEPTION_MESSAGE, e);
@@ -429,194 +428,12 @@ public final class AESCrypt {
     }
 
     /**
-     * The file at <tt>fromPath</tt> is decrypted and saved at <tt>toPath</tt>
-     * location.
-     *
-     *
-     * Source file can be encrypted using version 1 or 2 of aescrypt.
-     *
-     * @param fromPath the from path
-     * @param toPath the to path
-     * @throws IOException when there are I/O errors.
-     * @throws GeneralSecurityException if the platform does not support the
-     * required cryptographic methods.
-     */
-    public void decrypt(String fromPath, String toPath) throws IOException,
-            GeneralSecurityException {
-        InputStream in = null;
-        OutputStream out = null;
-        @SuppressWarnings("UnusedAssignment")
-        byte[] text = null, backup = null;
-        long total = 3 + 1 + 1 + BLOCK_SIZE + BLOCK_SIZE + KEY_SIZE + SHA_SIZE
-                + 1 + SHA_SIZE;
-        int version;
-        try {
-            in = new FileInputStream(fromPath);
-            debug("Opened for reading: " + fromPath);
-            out = new FileOutputStream(toPath);
-            debug("Opened for writing: " + toPath);
-
-            text = new byte[3];
-            readBytes(in, text); // Heading.
-            if (!new String(text, "UTF-8").equals("AES")) {
-                JOptionPane.showMessageDialog(null,
-                        "Encabezado de archivo no válido",
-                        "Error de codificación",
-                        JOptionPane.ERROR_MESSAGE);
-                throw new IOException("Encabezado de archivo no válido");
-            }
-
-            version = in.read(); // Version.
-            if (version < 1 || version > 2) {
-                JOptionPane.showMessageDialog(null,
-                        "El número de versión no compatible: " + version,
-                        "Error de configuración",
-                        JOptionPane.ERROR_MESSAGE);
-                throw new IOException("El número de versión no compatible: "
-                        + version);
-            }
-            debug("Version: " + version);
-
-            in.read(); // Reserved.
-
-            if (version == 2) { // Extensions.
-                text = new byte[2];
-                int len;
-                do {
-                    readBytes(in, text);
-                    len = ((0xff & (int) text[0]) << 8)
-                            | (0xff & (int) text[1]);
-                    if (in.skip(len) != len) {
-                        JOptionPane.showMessageDialog(null,
-                                "Fin inesperado de la extensión",
-                                "Error de archivo ",
-                                JOptionPane.ERROR_MESSAGE);
-                        throw new IOException("Fin inesperado de la extensión");
-                    }
-                    total += 2 + len;
-                    debug("Skipped extension sized: " + len);
-                } while (len != 0);
-            }
-            text = new byte[BLOCK_SIZE];
-            readBytes(in, text);
-            // Initialization Vector.
-            ivSpec1 = new IvParameterSpec(text);
-            aesKey1 = new SecretKeySpec(generateAESKey1(ivSpec1.getIV(),
-                    password), CRYPT_ALG);
-            debug("IV1: ", ivSpec1.getIV());
-            debug("AES1: ", aesKey1.getEncoded());
-            cipher.init(Cipher.DECRYPT_MODE, aesKey1, ivSpec1);
-            backup = new byte[BLOCK_SIZE + KEY_SIZE];
-            readBytes(in, backup);
-            // IV and key to decrypt file contents.
-            debug("IV2 + AES2 ciphertext: ", backup);
-            text = cipher.doFinal(backup);
-            ivSpec2 = new IvParameterSpec(text, 0, BLOCK_SIZE);
-            aesKey2 = new SecretKeySpec(text, BLOCK_SIZE, KEY_SIZE, CRYPT_ALG);
-            debug("IV2: ", ivSpec2.getIV());
-            debug("AES2: ", aesKey2.getEncoded());
-            hmac.init(new SecretKeySpec(aesKey1.getEncoded(), HMAC_ALG));
-            backup = hmac.doFinal(backup);
-            text = new byte[SHA_SIZE];
-            readBytes(in, text);
-            // HMAC and authenticity test.
-            if (!Arrays.equals(backup, text)) {
-                JOptionPane.showMessageDialog(null,
-                        "El archivo ha sido alterado o contraseña incorrecta",
-                        "Error de autenticación ",
-                        JOptionPane.ERROR_MESSAGE);
-                throw new IOException(
-                        "El archivo ha sido alterado o contraseña incorrecta");
-            }
-            debug("HMAC1: ", text);
-            total = new File(fromPath).length() - total;
-            // Payload size.
-            if (total % BLOCK_SIZE != 0) {
-                JOptionPane.showMessageDialog(null,
-                        "Archivo de entrada está dañado", "Error de archivo",
-                        JOptionPane.ERROR_MESSAGE);
-                throw new IOException("Archivo de entrada está dañado");
-            }
-            if (total == 0) {
-                // Hack: empty files won't enter block-processing for-loop
-                // below.
-                in.read();
-                // Skip last block size mod 16.
-            }
-            debug("Payload size: " + total);
-            cipher.init(Cipher.DECRYPT_MODE, aesKey2, ivSpec2);
-            hmac.init(new SecretKeySpec(aesKey2.getEncoded(), HMAC_ALG));
-            backup = new byte[BLOCK_SIZE];
-            text = new byte[BLOCK_SIZE];
-            for (int block = (int) (total / BLOCK_SIZE); block > 0; block--) {
-
-                int len = BLOCK_SIZE;
-                if (in.read(backup, 0, len) != len) { // Cyphertext block.
-                    JOptionPane.showMessageDialog(null,
-                            "Fin inesperado de contenido del archivo",
-                            "Error de archivo",
-                            JOptionPane.ERROR_MESSAGE);
-                    throw new IOException(
-                            "Fin inesperado de contenido del archivo");
-                }
-                cipher.update(backup, 0, len, text);
-                hmac.update(backup, 0, len);
-                if (block == 1) {
-                    int last = in.read(); // Last block size mod 16.
-                    debug("Last block size mod 16: " + last);
-                    len = (last > 0 ? last : BLOCK_SIZE);
-                }
-                out.write(text, 0, len);
-            }
-            out.write(cipher.doFinal());
-
-            backup = hmac.doFinal();
-            text = new byte[SHA_SIZE];
-            readBytes(in, text); // HMAC and authenticity test.
-            if (!Arrays.equals(backup, text)) {
-                JOptionPane.showMessageDialog(null,
-                        "El archivo ha sido alterado o contraseña incorrecta",
-                        "Error de autenticación ",
-                        JOptionPane.ERROR_MESSAGE);
-                throw new IOException(
-                        "El archivo ha sido alterado o contraseña incorrecta");
-            }
-            debug("HMAC2: ", text);
-        } catch (InvalidKeyException e) {
-            out.close();
-            File tmp = new File(toPath);
-            tmp.delete(); 
-            JOptionPane.showMessageDialog(null, JCE_EXCEPTION_MESSAGE,
-                    "Error de Java ", JOptionPane.ERROR_MESSAGE);
-            throw new GeneralSecurityException(JCE_EXCEPTION_MESSAGE, e);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-            if (out != null) {
-                out.close();
-            }
-        }
-    }
-
-    /**
-     * Process en.
+     * Proceso encriptación
      *
      * @throws IOException Signals that an I/O exception has occurred.
      * @throws GeneralSecurityException the general security exception
      */
     public void ProcessEn() throws IOException, GeneralSecurityException {
         encrypt(2, param.getIn(), param.getOut());
-
-    }
-
-    /**
-     * Process de.
-     *
-     * @throws IOException Signals that an I/O exception has occurred.
-     * @throws GeneralSecurityException the general security exception
-     */
-    public void ProcessDe() throws IOException, GeneralSecurityException {
-        decrypt(param.getIn(), param.getOut());
     }
 }
