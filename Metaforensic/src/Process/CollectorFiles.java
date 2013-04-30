@@ -181,10 +181,10 @@ public class CollectorFiles extends FileName implements ProcessFile {
         Find(new File(values.getDirectorioRecoleccion()), values.getTipoArchivo());
         PrintErrorExcepFile();
         if (factory.CallCreator() && factory.CallWriter()) {
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo(s) .afa.\n");
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo .afa.\n");
         } else {
             reco++;
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Errores de creación o finalización del/los archivo(s) .afa.\n");
+            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Error de creación o finalización del archivo .afa.\n");
         }
         PrintTot();
         et.StopAll();

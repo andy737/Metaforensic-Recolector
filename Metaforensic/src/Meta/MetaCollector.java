@@ -1,4 +1,4 @@
-/*
+ /*
  * *****************************************************************************
  *    
  * Metaforensic version 1.1 - Análisis forense de metadatos en archivos
