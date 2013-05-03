@@ -196,7 +196,7 @@ public class MetaCollector implements MetaCommon {
             buffer.append("[hostArq]:").append(InfoCompu.getSOAq()).append("\n");
             buffer.append("[fileName]: ").append(fim.getNameFile()).append("\n");
             buffer.append("[fileSize]: ").append(SizeFile()).append(" KB\n");
-            buffer.append("[checksumType]: ").append(cll.getTipoHash());
+            buffer.append("[checksumType]: ").append(cll.getTipoHash()).append("\n");
             buffer.append("[checksumHash]: ").append(hash.getHash()).append("\n");
             for (String name : metadatosN) {
                 buffer.append("[").append(name).append("]: ").append(metadatos.get(name)).append("\n");
