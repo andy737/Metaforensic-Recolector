@@ -37,7 +37,6 @@ public interface CollectorFactoryMethod {
     /**
      * Inicia recolector
      *
-     * @param ext tipo de archivo
      * @return error
      */
     public Boolean InitCollector();

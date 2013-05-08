@@ -1,5 +1,7 @@
 package Crypto;
 
+import Process.FileFeatures;
+import Windows.ModalDialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,13 +13,14 @@ import java.net.NetworkInterface;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Enumeration;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.JOptionPane;
 
 /**
  * The Class AESCrypt.
@@ -26,12 +29,7 @@ import javax.swing.JOptionPane;
  */
 public final class AESCrypt {
 
-    /**
-     * The Constant JCE_EXCEPTION_MESSAGE.
-     */
-    private static final String JCE_EXCEPTION_MESSAGE = "Por favor asegurate de tener instalado el "
-            + "\"Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files\" "
-            + "(http://java.sun.com/javase/downloads/index.jsp) de aqui puedes descargarlo.";
+    private FileFeatures fif = FileFeatures.getInstance();
     /**
      * The Constant RANDOM_ALG.
      */
@@ -74,10 +72,6 @@ public final class AESCrypt {
      */
     private SecurityFile param = SecurityFile.getInstance();
     /**
-     * The debug.
-     */
-    private final boolean DEBUG;
-    /**
      * The password.
      */
     private byte[] password;
@@ -113,39 +107,7 @@ public final class AESCrypt {
      * The aes key2.
      */
     private SecretKeySpec aesKey2;
-
-    /**
-     * ***************** PRIVATE METHODS * *****************.
-     *
-     * @param message the message
-     */
-    /**
-     * Prints a debug message on standard output if DEBUG mode is turned on.
-     */
-    protected void debug(String message) {
-        if (DEBUG) {
-            System.out.println("[DEBUG] " + message);
-        }
-    }
-
-    /**
-     * Prints a debug message on standard output if DEBUG mode is turned on.
-     *
-     * @param message the message
-     * @param bytes the bytes
-     */
-    protected void debug(String message, byte[] bytes) {
-        if (DEBUG) {
-            StringBuilder buffer = new StringBuilder("[DEBUG] ");
-            buffer.append(message);
-            buffer.append("[");
-            for (int i = 0; i < bytes.length; i++) {
-                buffer.append(bytes[i]);
-                buffer.append(i < bytes.length - 1 ? ", " : "]");
-            }
-            System.out.println(buffer.toString());
-        }
-    }
+    private ModalDialog md = new ModalDialog();
 
     /**
      * Generates a pseudo-random byte array.
@@ -265,22 +227,6 @@ public final class AESCrypt {
     }
 
     /**
-     * Utility method to read bytes from a stream until the given array is fully
-     * filled.
-     *
-     * @param in the in
-     * @param bytes the bytes
-     * @throws IOException if the array can't be filled.
-     */
-    protected void readBytes(InputStream in, byte[] bytes) throws IOException {
-        if (in.read(bytes) != bytes.length) {
-            JOptionPane.showMessageDialog(null, "Fin de archivo inesperado",
-                    "Error de archivo", JOptionPane.ERROR_MESSAGE);
-            throw new IOException("Fin de archivo inesperado");
-        }
-    }
-
-    /**
      * ************ PUBLIC API * ************.
      *
      * @param password the password
@@ -308,19 +254,15 @@ public final class AESCrypt {
      * required cryptographic methods.
      * @throws UnsupportedEncodingException if UTF-16 encoding is not supported.
      */
-    public AESCrypt(boolean debug, String password)
-            throws GeneralSecurityException, UnsupportedEncodingException {
+    public AESCrypt(boolean debug, String password) {
         try {
-            DEBUG = debug;
             setPassword(password);
             random = SecureRandom.getInstance(RANDOM_ALG);
             digest = MessageDigest.getInstance(DIGEST_ALG);
             cipher = Cipher.getInstance(CRYPT_TRANS);
             hmac = Mac.getInstance(HMAC_ALG);
-        } catch (GeneralSecurityException e) {
-            JOptionPane.showMessageDialog(null, JCE_EXCEPTION_MESSAGE,
-                    "Error de Java ", JOptionPane.ERROR_MESSAGE);
-            throw new GeneralSecurityException(JCE_EXCEPTION_MESSAGE, e);
+        } catch (NoClassDefFoundError | ExceptionInInitializerError | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+            /*Ignore*/
         }
     }
 
@@ -333,7 +275,6 @@ public final class AESCrypt {
     public void setPassword(String password)
             throws UnsupportedEncodingException {
         this.password = password.getBytes("UTF-16LE");
-        debug("Password usado: ", this.password);
     }
 
     /**
@@ -350,7 +291,7 @@ public final class AESCrypt {
      * @throws GeneralSecurityException if the platform does not support the
      * required cryptographic methods.
      */
-    public void encrypt(int version, String fromPath, String toPath)
+    public boolean encrypt(int version, String fromPath, String toPath)
             throws IOException, GeneralSecurityException {
         InputStream in = null;
         OutputStream out = null;
@@ -362,16 +303,8 @@ public final class AESCrypt {
                     password), CRYPT_ALG);
             ivSpec2 = new IvParameterSpec(generateIV2());
             aesKey2 = new SecretKeySpec(generateAESKey2(), CRYPT_ALG);
-            debug("IV1: ", ivSpec1.getIV());
-            debug("AES1: ", aesKey1.getEncoded());
-            debug("IV2: ", ivSpec2.getIV());
-            debug("AES2: ", aesKey2.getEncoded());
-
             in = new FileInputStream(fromPath);
-            debug("Abierto para la lectura: " + fromPath);
             out = new FileOutputStream(toPath);
-            debug("Abierto para la escritura: " + toPath);
-
             out.write("AES".getBytes("UTF-8")); // Heading.
             out.write(version); // Version.
             out.write(0); // Reserved.
@@ -386,13 +319,9 @@ public final class AESCrypt {
             cipher.update(ivSpec2.getIV(), 0, BLOCK_SIZE, text);
             cipher.doFinal(aesKey2.getEncoded(), 0, KEY_SIZE, text, BLOCK_SIZE);
             out.write(text); // Crypted IV and key.
-            debug("IV2 + AES2 ciphertext: ", text);
-
             hmac.init(new SecretKeySpec(aesKey1.getEncoded(), HMAC_ALG));
             text = hmac.doFinal(text);
             out.write(text); // HMAC from previous cyphertext.
-            debug("HMAC1: ", text);
-
             cipher.init(Cipher.ENCRYPT_MODE, aesKey2, ivSpec2);
             hmac.init(new SecretKeySpec(aesKey2.getEncoded(), HMAC_ALG));
             text = new byte[BLOCK_SIZE];
@@ -405,18 +334,20 @@ public final class AESCrypt {
             }
             last &= 0x0f;
             out.write(last); // Last block size mod 16.
-            debug("Último bloque de tamaño mod 16: " + last);
-
             text = hmac.doFinal();
             out.write(text); // HMAC from previous cyphertext.
-            debug("HMAC2: ", text);
+            return true;
         } catch (InvalidKeyException e) {
             out.close();
             File tmp = new File(toPath);
             tmp.delete();
-            JOptionPane.showMessageDialog(null, JCE_EXCEPTION_MESSAGE,
-                    "Error de Java ", JOptionPane.ERROR_MESSAGE);
-            throw new GeneralSecurityException(JCE_EXCEPTION_MESSAGE, e);
+            md.setDialogo("Por favor asegurate de tener instalado el "
+                    + "\"Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files\" "
+                    + "\n(http://java.sun.com/javase/downloads/index.jsp) de aqui puedes descargarlo.");
+            md.setTitulo("Error de Java");
+            md.setFrame(fif.getFrame());
+            md.DialogErrFix();
+            return false;
         } finally {
             if (in != null) {
                 in.close();
@@ -433,7 +364,12 @@ public final class AESCrypt {
      * @throws IOException Signals that an I/O exception has occurred.
      * @throws GeneralSecurityException the general security exception
      */
-    public void ProcessEn() throws IOException, GeneralSecurityException {
-        encrypt(2, param.getIn(), param.getOut());
+    public boolean ProcessEn() throws IOException, GeneralSecurityException {
+        if (encrypt(2, param.getIn(), param.getOut())) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

@@ -28,11 +28,8 @@ package Process;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -89,9 +86,13 @@ public class ErrorCollectorMeta {
      */
     public Boolean CloseFile() {
         try {
-            outfinal.close();
-            return true;
-        } catch (IOException ex) {
+            if (outfinal != null) {
+                outfinal.close();
+                return true;
+            } else {
+                return true;
+            }
+        } catch (Exception ex) {
             return false;
         }
     }
@@ -106,7 +107,7 @@ public class ErrorCollectorMeta {
             ercod = new OutputStreamWriter(er, "UTF-8");
             outfinal = new BufferedWriter(ercod);
             return true;
-        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+        } catch (Exception ex) {
             return false;
         }
     }

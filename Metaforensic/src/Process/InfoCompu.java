@@ -30,7 +30,7 @@ package Process;
  * Clase que retorna diversos valores del entorno sometido a recolección
  *
  * @author andy737-1
- * @verision 1.1
+ * @version 1.1
  */
 public class InfoCompu {
 

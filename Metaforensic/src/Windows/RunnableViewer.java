@@ -43,7 +43,6 @@ public class RunnableViewer implements Runnable {
      * Constructor que inicializa el objeto runnableviewer
      *
      * @param gui frame padre
-     * @param values valores definidos por el usuario
      */
     public RunnableViewer(CollectorGUI gui) {
         this.gui = gui;

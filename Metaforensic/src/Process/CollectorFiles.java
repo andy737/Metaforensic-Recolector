@@ -31,12 +31,14 @@ import Factory.CollectorFactoryMethod;
 import GUI.CollectorGUI;
 import GUI.OperationViewer;
 import Meta.FileMeta;
+import Meta.MetaCollector;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
 import jonelo.jacksum.JacksumAPI;
 import jonelo.jacksum.algorithm.AbstractChecksum;
 
@@ -60,7 +62,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
     private List<FileHash> fail;
     private List<File> failmeta;
     private ElapsedTime et;
-    private ErrorCollectorMeta erm;
+    private int countf;
     private int error;
     private int subdir;
     private int reco;
@@ -90,6 +92,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
     private void InitViewer() {
         opr = new OperationViewer(gui);
         opr.setVisible(true);
+        setConsole(opr);
     }
 
     private void InitVar() {
@@ -102,7 +105,6 @@ public class CollectorFiles extends FileName implements ProcessFile {
         fif = FileFeatures.getInstance();
         failmeta = new ArrayList<>();
         factory = new CollectorFactory();
-        erm = null;
         pdf = 0;
         error = 0;
         subdir = 0;
@@ -117,6 +119,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
         odt = 0;
         ods = 0;
         odp = 0;
+        countf=0;
         reco = 0;
     }
 
@@ -133,7 +136,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
 
     /**
      *
-     * @param op instancia a la clase genradora del viewer process
+     * @param op instancia a la clase generadora del viewer process
      */
     public void setConsole(OperationViewer op) {
         this.op = op;
@@ -176,46 +179,46 @@ public class CollectorFiles extends FileName implements ProcessFile {
      * Desencadenador de lectura de archivos
      */
     public void ActionPerformed() {
-        et.StartAll();
-        InitAction();
-        Find(new File(values.getDirectorioRecoleccion()), values.getTipoArchivo());
-        PrintErrorExcepFile();
-        if (factory.CallCreator() && factory.CallWriter()) {
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo .afa.\n");
-        } else {
-            reco++;
-            SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Error de creación o finalización del archivo .afa.\n");
+        try {
+            et.StartAll();
+            InitAction();
+            Find(new File(values.getDirectorioRecoleccion()), values.getTipoArchivo());
+            PrintErrorExcepFile();
+            if (factory.CallCreator() && factory.CallWriter() && MetaCollector.ferr == 0) {
+                SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [COLLECTOR]:[FILE] Creando y finalizando archivo .afa\n");
+            } else {
+                if (MetaCollector.ferr == 3) {
+                    reco++;
+                    SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Error de creación del archivo .afa\n");
+                } else {
+                    if (MetaCollector.ferr == 1) {
+                        reco++;
+                        SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[COLLECTOR]:[FILE] Error de creación del archivo .afa\n");
+                    }
+                }
+            }
+            PrintTot();
+            et.StopAll();
+            SetProcessTxt("Tiempo total transcurrido: " + et.getElapsedTimeAll() + " segundos aprox.\n");
+            if (out.CreateFile()) {
+                out.WriteFile();
+                out.CloseFile();
+            }
+            opr.setExit(true);
+            opr.setExitButtonEnabled(true);
+            gui.CleanGUIDirect();
+        } catch (NullPointerException | Error ex) {
+            JOptionPane.showMessageDialog(fif.getFrame(), ex.getStackTrace());
         }
-        PrintTot();
-        et.StopAll();
-        SetProcessTxt("Tiempo total transcurrido: " + et.getElapsedTimeAll() + " segundos aprox.\n");
-        out.CreateFile();
-        out.WriteFile();
-        out.CloseFile();
-        opr.setExit(true);
-        opr.setExitButtonEnabled(true);
-        gui.CleanGUIDirect();
     }
 
     private void PrintErrorExcepFile() {
-        erm = new ErrorCollectorMeta(failmeta);
         if (failmeta.size() > 0) {
-            if (erm.OpenFile()) {
-                if (erm.WriteErrorFiles()) {
-                    reco++;
-                    SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [PRINT]:[EXCEPTION] Se imprimierón los archivos con excepciones de recolección.\n\n");
-                } else {
-                    SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[PRINT]:[EXCEPTION] Talvez no se imprimierón los archivos con excepciones de recolección.\n\n");
-                }
-
-            } else {
-                SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[PRINT]:[EXCEPTION] No se imprimierón los archivos con excepciones de recolección.\n\n");
-            }
-            if (!erm.CloseFile()) {
-                SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [ERROR]:[PRINT]:[EXCEPTION] Talvez no se imprimierón los archivos con excepciones de recolección.\n\n");
-            }
+            reco++;
+            if (countf==1) {
+               SetProcessTxt("[" + DateTime.getDate() + " " + DateTime.getTimeMilli() + "] [[COLLECTOR]:[FILE] No se creo el archivo .afa\n"); 
+            }            
         }
-
     }
 
     private void WriteFile(String txt) {
@@ -243,6 +246,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
                         }
                         if (tipo.contains(ext)) {
                             if (!opr.getPanic()) {
+                                countf++;
                                 ProcessFile(ext, archivo);
                             } else {
                                 break;
@@ -360,7 +364,7 @@ public class CollectorFiles extends FileName implements ProcessFile {
         if (opr.getPanic()) {
             SetProcessTxt("\nProceso cancelado.....\n\n");
         } else {
-            if (fail.size() > 0 || error > 0 && very.size() > 0) {
+            if (failmeta.size() > 0 || fail.size() > 0 || error > 0 && very.size() > 0) {
                 SetProcessTxt("\nRecolección finalizada con errores.....\n\n");
             } else {
                 if (very.size() > 0) {

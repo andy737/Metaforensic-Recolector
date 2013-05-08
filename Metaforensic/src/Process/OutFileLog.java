@@ -28,9 +28,10 @@ package Process;
 
 import Windows.ModalDialog;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Creación y escritura del archivo .log
@@ -87,16 +88,18 @@ public class OutFileLog {
     /**
      * Crea un archivo de extención .log
      */
-    public void CreateFile() {
+    public boolean CreateFile() {
         try {
             log = new FileOutputStream(fif.getPath() + "\\" + fif.getNameFile() + ".log");
             outlog = new OutputStreamWriter(log, "UTF-8");
             outfinal = new BufferedWriter(outlog);
-        } catch (IOException ex) {
-            md.setDialogo("No se pudo crear el archivo " + fif.getNameFile() + ".log" + " en la carpeta: \n" + fif.getPath());
+            return true;
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+            md.setDialogo("No se pudo crear el archivo " + fif.getNameFile() + ".log" + " en la ruta: \n" + fif.getPath()+" ");
             md.setTitulo("Error de archivo");
             md.setFrame(fif.getFrame());
-            md.DialogErr();
+            md.DialogErrFix();
+            return false;
         }
     }
 
@@ -107,11 +110,11 @@ public class OutFileLog {
         try {
             outfinal.write(buffer.toString());
             outfinal.flush();
-        } catch (IOException ex) {
-            md.setDialogo("Error de escritura en el archivo " + fif.getNameFile() + ".log" + "ubicado en la carpeta: \n" + fif.getPath());
+        } catch (Exception ex) {
+            md.setDialogo("Error de escritura en el archivo " + fif.getNameFile() + ".log" + " ubicado en la ruta: \n" + fif.getPath());
             md.setTitulo("Error de archivo");
             md.setFrame(fif.getFrame());
-            md.DialogErr();
+            md.DialogErrFix();
         }
     }
 
@@ -121,11 +124,11 @@ public class OutFileLog {
     public void CloseFile() {
         try {
             outfinal.close();
-        } catch (IOException ex) {
-            md.setDialogo("Error al cerrar el archivo " + fif.getNameFile() + ".log" + "ubicado en la carpeta: \n" + fif.getPath());
+        } catch (Exception ex) {
+            md.setDialogo("Error al cerrar el archivo " + fif.getNameFile() + ".log" + " ubicado en la ruta: \n" + fif.getPath());
             md.setTitulo("Error de archivo");
             md.setFrame(fif.getFrame());
-            md.DialogErr();
+            md.DialogErrFix();
         }
     }
 }
