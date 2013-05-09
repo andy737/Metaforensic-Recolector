@@ -43,12 +43,12 @@ public class CollectorFactory implements CollectorFactoryMethod {
      * Inicializa variables
      */
     public CollectorFactory() {
-        estado = false;
         mtc = new MetaCollector();
     }
 
     @Override
     public Boolean InitCollector() {
+        estado=false;
         if (mtc.LoadBuffer()) {
             estado = true;
         }

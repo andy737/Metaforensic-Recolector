@@ -46,7 +46,6 @@ import java.security.GeneralSecurityException;
 import javax.swing.JOptionPane;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
-import org.apache.tika.exception.TikaException;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
@@ -54,7 +53,6 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
 
 /**
  * Recolector de metadatos
@@ -227,7 +225,7 @@ public class MetaCollector implements MetaCommon {
                 buffer.append("[").append(name).append("]: ").append(metadatos.get(name)).append("\n");
             }
             return true;
-        } catch (IOException | SAXException | TikaException ex) {
+        } catch (Exception ex) {
             err = 1;
         } finally {
             try {
@@ -238,7 +236,7 @@ public class MetaCollector implements MetaCommon {
                     return true;
                 }
 
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 return false;
             }
         }
